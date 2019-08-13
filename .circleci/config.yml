@@ -21,8 +21,6 @@ workflows:
         chart_registry_url: ${CHART_REGISTRY_URL}
         chart_registry_username: ${CHART_REGISTRY_USERNAME}
         chart_registry_password: ${CHART_REGISTRY_PASSWORD}
-        requires:
-        - tag
         filters:
           tags:
             only: /.*/
