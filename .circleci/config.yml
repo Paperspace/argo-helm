@@ -22,7 +22,5 @@ workflows:
         chart_registry_username: ${CHART_REGISTRY_USERNAME}
         chart_registry_password: ${CHART_REGISTRY_PASSWORD}
         filters:
-          tags:
-            only: /.*/
           branches:
-            ignore: /.*/
+            only: master

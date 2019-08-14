@@ -35,5 +35,5 @@ spec:
                 apiVersion: v1
                 fieldPath: metadata.namespace
           - name: BASE_HREF
-            value: /
+            value: {{ .Values.ui.baseHref }}
 {{- end -}}
