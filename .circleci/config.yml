@@ -5,7 +5,7 @@ orbs:
 
 
 _workspace_root: &workspace_root .
-_chart_name: &chart_name argo-helm
+_chart_name: &chart_name argo
 
 
 workflows:
