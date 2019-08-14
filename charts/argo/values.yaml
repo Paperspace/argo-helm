@@ -64,6 +64,7 @@ executor:
 
 ui:
   enabled: true
+  baseHref: /
   # only show workflows where UI installed
   forceNamespaceIsolation: false
   image:
