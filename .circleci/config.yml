@@ -15,7 +15,8 @@ workflows:
     - helm-tools/package_and_publish:
         context: helm-deploy
         chart_name: *chart_name
-        chart_version: ${CIRCLE_TAG}
+        chart_version: 0.0.0-${CIRCLE_SHA1}
+        additional_chart_version: 0.0.0-latest
         chart_path: charts
         workspace_root: *workspace_root
         chart_registry_url: ${CHART_REGISTRY_URL}
