@@ -16,13 +16,14 @@ metadata:
     {{- end }}
 spec:
   rules:
-    {{- range .Values.ui.ingress.hosts }}
-    - host: {{ . }}
+  {{- range $host, $path := .Values.ui.ingress.hostPath }}
+    - host: {{ $host | quote }}
       http:
         paths:
-          - backend:
-              serviceName: {{ $serviceName }}
-              servicePort: {{ $servicePort }}
+        - path: {{ $path | quote }}
+          backend:
+            serviceName: {{ $serviceName }}
+            servicePort: {{ $servicePort }}
     {{- end -}}
   {{- if .Values.ui.ingress.tls }}
   tls:
