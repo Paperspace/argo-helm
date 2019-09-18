@@ -57,6 +57,7 @@ controller:
   # service type `LoadBalancer`
   loadBalancerSourceRanges: []
   resources: {}
+  nodeSelector: {}
 
 executor:
   image:
@@ -87,6 +88,7 @@ ui:
   loadBalancerSourceRanges: []
   resources: {}
 
+  nodeSelector: {}
   ## Ingress configuration.
   ## ref: https://kubernetes.io/docs/user-guide/ingress/
   ##
