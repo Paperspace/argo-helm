@@ -36,4 +36,6 @@ spec:
                 fieldPath: metadata.namespace
           - name: BASE_HREF
             value: {{ .Values.ui.baseHref }}
+          resources:
+            {{- toYaml .Values.ui.resources | nindent 12 }}
 {{- end -}}

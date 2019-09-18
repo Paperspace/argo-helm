@@ -7,7 +7,7 @@ metadata:
     helm.sh/chart: {{ include "argo-cd.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/part-of: {{ include "argo-cd.name" . }}
+    app.kubernetes.io/part-of: argocd
 data:
 {{- if .Values.config.helmRepositories }}
   helm.repositories: |
@@ -23,6 +23,9 @@ data:
 {{- end }}
 {{- if .Values.config.url }}
   url: {{ .Values.config.url }}
+{{- end }}
+{{- if .Values.config.instanceLabelKey }}
+  application.instanceLabelKey: {{ .Values.config.instanceLabelKey }}
 {{- end }}
 {{- if .Values.config.oidcConfig }}
   oidc.config: |
