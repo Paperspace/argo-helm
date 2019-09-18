@@ -38,4 +38,8 @@ spec:
             value: {{ .Values.ui.baseHref }}
           resources:
             {{- toYaml .Values.ui.resources | nindent 12 }}
+      {{- with .Values.ui.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end -}}
