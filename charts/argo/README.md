@@ -1,5 +1,6 @@
-## Argo Chart
-This chart is used to set up argo and it's needed dependencies through one command. This is used in conjunction with [helm](https://github.com/kubernetes/helm).
+## Argo Workflows Chart
+
+This is a **community maintained** chart. It is used to set up argo and it's needed dependencies through one command. This is used in conjunction with [helm](https://github.com/kubernetes/helm).
 
 If you want your deployment of this helm chart to most closely match the [argo CLI](https://github.com/argoproj/argo), you should deploy it in the `kube-system` namespace.
 
@@ -7,7 +8,7 @@ If you want your deployment of this helm chart to most closely match the [argo C
 This chart uses an install hook to configure the CRD definition.  Installation of CRDs is a somewhat privileged process in itself and in RBAC enabled clusters the `default` service account for namespaces does not typically have the ability to do create these.
 
 A few options are:
-- Setup the CRD yourself manually and use the `--no-hooks` options of `helm install`
+- Setup the CRD yourself manually and use `--set installCRD=false` when installing the helm chart. Find the CRDs in the [argo codebase](https://raw.githubusercontent.com/argoproj/argo/master/manifests/base/crds/workflow-crd.yaml)
 - Manually create a ServiceAccount in the Namespace which your release will be deployed w/ appropriate bindings to perform this action and set the `init.serviceAccount` attribute
 - Augment the `default` ServiceAccount permissions in the Namespace in which your Release is deployed to have the appropriate permissions
 
@@ -24,4 +25,3 @@ Fields to note:
 * `controller.workflowNamespaces`: This is a list of namespaces where workflows will be ran
 * `minio.install`: If this is true, we'll install [minio](https://github.com/kubernetes/charts/tree/master/stable/minio) and build out the artifactRepository section in workflow controller config map.
 * `artifactRepository.s3.accessKeySecret` and `artifactRepository.s3.secretKeySecret` These by default link to minio default credentials stored in the secret deployed by the minio chart.
-

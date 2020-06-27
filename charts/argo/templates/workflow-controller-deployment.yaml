@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-{{ .Values.controller.name}}
@@ -8,11 +8,19 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
+  replicas: {{ .Values.controller.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-{{ .Values.controller.name}}
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
         app: {{ .Release.Name }}-{{ .Values.controller.name}}
         release: {{ .Release.Name }}
+        {{- if .Values.controller.podLabels }}
+        {{ toYaml .Values.controller.podLabels | nindent 8}}
+        {{- end }}
       {{- if .Values.controller.podAnnotations }}
       annotations:
 {{ toYaml .Values.controller.podAnnotations | indent 8}}{{- end }}
@@ -32,6 +40,17 @@ spec:
           - "{{ .Values.controller.logging.level }}"
           - "--gloglevel"
           - "{{ .Values.controller.logging.globallevel }}"
+          {{- if .Values.singleNamespace }}
+          - "--namespaced"
+          {{- end }}
+          {{- with .Values.controller.workflowWorkers }}
+          - "--workflow-workers"
+          - {{ . | quote }}
+          {{- end }}
+          {{- if .Values.controller.podWorkers }}
+          - "--pod-workers"
+          - {{ . | quote }}
+          {{- end }}
           env:
           - name: ARGO_NAMESPACE
             valueFrom:
@@ -40,7 +59,19 @@ spec:
                 fieldPath: metadata.namespace
           resources:
             {{- toYaml .Values.controller.resources | nindent 12 }}
+          {{- if .Values.controller.metricsConfig.enabled }}
+          ports:
+          - containerPort: 8080
+          {{- end }}
       {{- with .Values.controller.nodeSelector }}
       nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.controller.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.controller.affinity }}
+      affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
